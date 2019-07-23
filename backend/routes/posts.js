@@ -69,22 +69,35 @@ router.put(
   });
 
 router.get('', (req, res, next) => {
-  Post.find()
-    .then((documents) => {
+  const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+  const postQuery = Post.find();
+  let fetchedPosts;
+  if (pageSize && currentPage) {
+    // inefficient for large db
+    postQuery
+      .skip(pageSize * (currentPage - 1))
+      .limit(pageSize);
+  }
+  postQuery.then((documents) => {
+    fetchedPosts = documents;
+    return Post.countDocuments();
+  }).then(count => {
       let posts = [];
-      for(let i in documents) {
+      for(let i in fetchedPosts) {
         posts.push({
-          id: documents[i]._id,
-          title: documents[i].title,
-          content: documents[i].content,
-          imagePath: documents[i].imagePath
+          id: fetchedPosts[i]._id,
+          title: fetchedPosts[i].title,
+          content: fetchedPosts[i].content,
+          imagePath: fetchedPosts[i].imagePath
         })
       }
       res.status(200).json({
         msessage: 'Post fetched successfully',
-        posts: posts
+        posts: posts,
+        maxPosts: count
       });
-    });
+  });
 });
 
 router.get('/:id', (req, res, next) => {
