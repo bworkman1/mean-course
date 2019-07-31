@@ -5,7 +5,8 @@ const config = require('../config.json');
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
-    jwt.verify(token, config.jwt_signature);
+    const decodedToken = jwt.verify(token, config.jwt_signature);
+    req.userData = { email: decodedToken.email, userId: decodedToken.userId };
     next();
   } catch (error) {
     res.status(401).json({message: "Auth Failed"});
