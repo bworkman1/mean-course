@@ -41,7 +41,7 @@ exports.updatePost = (req, res, next) => {
   });
 
   Post.updateOne({_id: req.params.id, creator: req.userData.userId}, post).then(result => {
-    if(result.nModified > 0) {
+    if(result.n > 0) {
       res.status(200).json({message: 'Post updated'});
     } else {
       res.status(401).json({message: 'Not authorized'});
@@ -69,15 +69,13 @@ exports.getPosts = (req, res, next) => {
     return Post.countDocuments();
   }).then(count => {
     let posts = [];
-    for(let i in fetchedPosts) {
-      posts.push({
-        id: fetchedPosts[i]._id,
-        title: fetchedPosts[i].title,
-        content: fetchedPosts[i].content,
-        imagePath: fetchedPosts[i].imagePath,
-        creator: fetchedPosts[i].creator
-      })
-    }
+    for(let i in fetchedPosts) posts.push({
+      id: fetchedPosts[i]._id,
+      title: fetchedPosts[i].title,
+      content: fetchedPosts[i].content,
+      imagePath: fetchedPosts[i].imagePath,
+      creator: fetchedPosts[i].creator
+    })
     res.status(200).json({
       msessage: 'Post fetched successfully',
       posts: posts,

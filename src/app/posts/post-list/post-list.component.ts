@@ -29,6 +29,10 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading = true;
+
+    const postPerPage = localStorage.getItem('postPerPage');
+    this.postPerPage = postPerPage ? Number(postPerPage) : 2;
+
     this.postsService.getPosts(this.postPerPage, this.currentPage);
     this.userId = this.authService.getUserId();
     this.postsSub = this.postsService.getPostUpdateListener()

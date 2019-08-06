@@ -102,6 +102,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
     localStorage.removeItem('userId');
+    localStorage.removeItem('postPerPage');
   }
 
   private setAuthTimer(duration: number) {
