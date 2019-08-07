@@ -2,13 +2,12 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const config = require('./config.json');
 const postsRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user.js');
 
 const app = express();
 
-mongoose.connect("mongodb+srv://" + config.db_user + ":" + config.db_password + "@" + config.db_collection + "/test?retryWrites=true&w=majority", {useNewUrlParser: true })
+mongoose.connect("mongodb+srv://" + process.env.db_user + ":" + process.env.db_password + "@" + process.env.db_collection + "/test?retryWrites=true&w=majority", {useNewUrlParser: true })
   .then(() => {
     console.log('Connected to the database!');
   })

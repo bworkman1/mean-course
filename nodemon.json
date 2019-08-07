@@ -1,0 +1,9 @@
+{
+  "env": {
+    "db_user": "airbiscuit",
+    "db_password": "ThisIsThePassword",
+    "db_collection": "cluster-3khtr.mongodb.net",
+    "jwt_signature": "WIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4",
+    "base_url": "http://localhost:3000/api/"
+  }
+}

@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const config = require('../config.json');
 
 exports.createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then(hash => {
@@ -39,7 +38,7 @@ exports.userLogin = (req, res, next) => {
 
     const token = jwt.sign(
       {email: fetchedUser.email, userId: fetchedUser._id},
-      config.jwt_signature,
+      process.env.jwt_signature,
       {expiresIn: '1h'});
       res.status(200).json({
         token: token,
